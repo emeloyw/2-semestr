@@ -34,20 +34,20 @@ const int nC = 32;
 					0b1111'1111'0000'0110'0011'1000'0010'0001,//30
 					0b1111'1111'1111'0000'1000'0011'1111'1100,//31
 					0b1111'1111'1111'1111'1111'1111'1111'1111 }, * nMov = 0;//32
-	UINT bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;	// РјР°СЃРєР° РґР»СЏ СЃС‚РµРЅС‹
+	UINT bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;	// маска для стены
 	
 	int nSRow = 0, nSCol = 2;
 	int	nERow = 30, nECol = 31;
 	int	nRow=nSRow, nCol=nSCol;
-	Р¦Р’Р•РўРђ nCLRB = CL_BLACK, nColorBugB=CL_LIGHT_PURPLE;
+	ЦВЕТА nCLRB = CL_BLACK, nColorBugB=CL_LIGHT_PURPLE;
 	COLORS nCLRT = CL_LIGHT_WHITE,nCLRE=CL_CYAN,nCLRS=CL_LIGHT_RED;
 	int LabirintMenu() {
 		UCHAR ch = 0;
 		do {
 			CLEAR;
-			cout << "   РњРµРЅСЋ Р›Р°Р±РёСЂРёРЅС‚Р°\n";
-			cout<<"0 - Р›Р°Р±РёСЂРёРЅС‚\n";
-			cout << "Р”Р»СЏ РІС‹С…РѕРґР° РёР· РїСЂРѕРіСЂР°РјРјС‹ РЅР°Р¶РјРёС‚Рµ РєР»Р°РІРёС€Сѓ ESC";
+			cout << "   Меню Лабиринта\n";
+			cout<<"0 - Лабиринт\n";
+			cout << "Для выхода из программы нажмите клавишу ESC";
 			ch = _getch();
 			switch (ch) {
 			case'0': Labirint();  break;
@@ -64,14 +64,14 @@ const int nC = 32;
 		nMov[pnRow] |= bit >> pnCol;
 		if ((pnRow == nERow) && (pnCol == nECol)) return 99;
 
-		if (pnRow - 1 >= 0) {																	//РјРѕР¶РЅРѕ Р»Рё С€Р°РіРЅСѓС‚СЊ РІРІРµСЂС…	
+		if (pnRow - 1 >= 0) {																	//можно ли шагнуть вверх	
 			if (!(map[pnRow - 1] & (bit >> pnCol)) && !(nMov[pnRow - 1] & (bit >> pnCol))) {
 				nRes = Moving(pnRow - 1, pnCol);
 				if (nRes) return nRes;
 
 			}
 		}
-		if (pnCol - 1 >= 0) {																	//РјРѕР¶РЅРѕ Р»Рё С€Р°РіР°С‚СЊ РІР»РµРІРѕ
+		if (pnCol - 1 >= 0) {																	//можно ли шагать влево
 			if (!(map[pnRow] & (bit >> (pnCol - 1))) && !(nMov[pnRow] & (bit >> (pnCol - 1)))) {
 				nRes = Moving(pnRow, pnCol - 1);
 				if (nRes) return nRes;
@@ -97,7 +97,7 @@ const int nC = 32;
 
 	int Labirint() {
 
-		CONSOLE_CURSOR_INFO cci;										//РѕС‚РєР»СЋС‡РµРЅРёРµ РјРёРіР°РЅРёСЏ РєСѓСЂСЃРѕСЂР°
+		CONSOLE_CURSOR_INFO cci;										//отключение мигания курсора
 		GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
 		cci.bVisible = false;
 		SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
@@ -116,7 +116,7 @@ const int nC = 32;
 				else {
 					if ((i == nRow) && (j == nCol)) {
 						SetColor(nColorBugB);
-						cout << "Р–Р–";
+						cout << "ЖЖ";
 					}
 					else {
 						SetColor(nCLRB);
@@ -137,7 +137,7 @@ const int nC = 32;
 			SetCursor(nRow, nCol * 2);
 			if (nRow == nSRow && nCol == nSCol)SetColor(nCLRS, nColorBugB);
 			else if (nRow == nERow && nCol == nECol)SetColor(CL_LIGHT_CYAN, nColorBugB); else SetColor(nColorBugB);
-			cout << "Р–Р–";
+			cout << "ЖЖ";
 			ch = _getch();
 			SetColor(CL_BLACK);
 			SetCursor(nRow, nCol * 2);
@@ -154,10 +154,10 @@ const int nC = 32;
 					Moving(nRow, nCol);
 					delete[] nMov;
 					break;
-				case 72:	if ((nRow == 0) || (map[nRow - 1] & (bit >> nCol))) Beep(900, 300); else nRow--; break;			//РІРІРµСЂС…	   
-				case 75:	if ((nCol == 0) || (map[nRow] & (bit >> (nCol - 1)))) Beep(900, 300); else nCol--; break;			//РІР»РµРІРѕ	   
-				case 77:	if ((nCol + 1 == nC) || (map[nRow] & (bit >> (nCol + 1)))) Beep(900, 300); else nCol++; break;		//РІРїСЂР°РІРѕ			
-				case 80:	if ((nRow + 1 == nL) || (map[nRow + 1] & (bit >> nCol))) Beep(900, 300); else nRow++; break;		//РІРЅРёР·				   	  
+				case 72:	if ((nRow == 0) || (map[nRow - 1] & (bit >> nCol))) Beep(900, 300); else nRow--; break;			//вверх	   
+				case 75:	if ((nCol == 0) || (map[nRow] & (bit >> (nCol - 1)))) Beep(900, 300); else nCol--; break;			//влево	   
+				case 77:	if ((nCol + 1 == nC) || (map[nRow] & (bit >> (nCol + 1)))) Beep(900, 300); else nCol++; break;		//вправо			
+				case 80:	if ((nRow + 1 == nL) || (map[nRow + 1] & (bit >> nCol))) Beep(900, 300); else nRow++; break;		//вниз				   	  
 
 				}
 			}
@@ -168,10 +168,10 @@ const int nC = 32;
 		SetColor(CL_BLACK, CL_LIGHT_WHITE);
 
 		if (ch == ESC) {
-			cout << "\n\nРђРІР°СЂРёР№РЅС‹Р№ РІС‹С…РѕРґ.\n";
+			cout << "\n\nАварийный выход.\n";
 		}
 		else {
-			cout << "\n\nР›Р°Р±РёСЂРёРЅС‚ РїСЂРѕР№РґРµРЅ. <3\n";
+			cout << "\n\nЛабиринт пройден. <3\n";
 		}
 		PAUSE;
 
@@ -179,3 +179,4 @@ const int nC = 32;
 
 		
 	}
+	

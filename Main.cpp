@@ -3,26 +3,26 @@ int main() {
 	setlocale(LC_ALL, "rus");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	SetConsoleTitle(L"РЈС‡РµР±РЅС‹Р№ РїСЂРѕРµРєС‚ РїРѕ РґРёСЃС†РёРїР»РёРЅРµ \"РўРµС…РЅРѕР»РѕРіРёСЏ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёСЏ\" РЎС‚СѓРґРµРЅС‚Р° РўСѓРїРёС†С‹РЅРѕР№ РќР°С‚Р°Р»РёРё");
+	SetConsoleTitle(L"Учебный проект по дисциплине \"Технология программирования\" Студента Тупицыной Наталии");
 	UCHAR ch = 0;
 	do {
 		system("cls");
-		cout << "   РњРµРЅСЋ РїСЂРѕРіСЂР°РјРјС‹\n";
-		cout << "0-РЎРІРµРґРµРЅРёСЏ Рѕ РїСЂРѕРіСЂР°РјРјРёСЃС‚Рµ\n";
-		cout << "1 - РџСЂРѕРіСЂР°РјРјС‹ РїРµСЂРІРѕРіРѕ СЃРµРјРµСЃС‚СЂР°\n";
-		cout << "L - Р›Р°Р±РёСЂРёРЅС‚\n";
-		cout << "R - Р РµРєСѓСЂСЃРёСЏ";
-		cout << "K - РљРѕРЅС‚СЂРѕР»СЊРЅС‹Рµ СЂР°Р±РѕС‚С‹(Р’Р°СЂРёР°РЅС‚ 36)";
-		cout << "\n\nР”Р»СЏ РІС‹С…РѕРґР° РёР·РЅР°Р¶РјРёС‚Рµ РєР»Р°РІРёС€Сѓ ESC\n";
+		cout << "   Меню программы\n";
+		cout << "0-Сведения о программисте\n";
+		cout << "1 - Программы первого семестра\n";
+		cout << "L - Лабиринт\n";
+		cout << "R - Рекурсия";
+		cout << "K - Контрольные работы(Вариант 36)";
+		cout << "\n\nДля выхода изнажмите клавишу ESC\n";
 
 		ch = _getch();
 
 		switch (ch) {
 		case '0': Creator();  break;
 		case '1': FirstSem();  break;
-		case 'L': case'l': case (UCHAR)'Рґ': case (UCHAR)'Р”':LabirintMenu();
-		case'K':case'k':case(UCHAR)'Р›':case(UCHAR)'Р»':KontrolnyaMenu();
-		case'r':case'R':case(UCHAR)'Рє':case(UCHAR)'Рљ':RecMenu(); break;
+		case 'L': case'l': case (UCHAR)'д': case (UCHAR)'Д':LabirintMenu();
+		case'K':case'k':case(UCHAR)'Л':case(UCHAR)'л':KontrolnyaMenu();
+		case'r':case'R':case(UCHAR)'к':case(UCHAR)'К':RecMenu(); break;
 		}
 	} while (ch != 27);
 	return 0;
